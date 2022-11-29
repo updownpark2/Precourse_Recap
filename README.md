@@ -248,3 +248,439 @@ gameRetry(result) {
     });
   }
 ```
+#### return을 통해 if문 줄이기
+
+과거의 코드를 보면 if문을 연달아 쓰는 경우가 많았음을 알게되었다. if문이 많다보니 가독성은 떨어지고 코드 자체의 효율성도 좋지 않아졌다. return을 통해 if문을 줄인다는 말이 무엇인지 과거의 나는 잘몰랐었다.
+이번 코드를 다시 짜보면서 return을 이용해 if문을 줄인다는 말을 이해하게 되었다!
+```js
+ gameCalculation(userInput) {
+    gameRule.totalCalculation(this.computer, userInput);
+    const gameResult = gameRule.result();
+    if (this.gameEnd(gameResult) === true) {
+      this.gameRetry(gameResult);
+
+      return;
+    }
+    this.gameContinue(gameResult);
+  }
+```
+지금의 코드는 위 코드와 같이 return을 해버려서 gameEnd 일때 gameRetry를 하고 아니면 continue한다는 게 잘 보인다.
+반면 아래의 과거코드는 if문의 반복과 매개변수명으로 인해 코드가 잘 읽히지 않는다.
+```js
+gameJudge(userStrikeCount) {
+    if (userStrikeCount !== 3) {
+      this.notThreeStrike();
+    }
+    if (userStrikeCount === 3) {
+      Console.readLine(GAME.END_RETRY_MENTION, (retryOrEndNum) => {
+        this.userRetryNum = retryOrEndNum;
+        this.checkRetryNumVaild(this.userRetryNum);
+      });
+    }
+  }
+```
+이렇게 return을 통해 가독성이 더 나아질 수 있다는 점을 배웠다.
+
+#### 전체적인 코드비교 <과거 vs 현재>
+
+과거의 코드
+```js
+class App {
+  constructor() {
+    this.computerInput = ComputerInput();
+    this.firstTry = true;
+    this.errorResult = ERROR.USER_INPUT_PASS;
+    this.errorRetryResult = ERROR.USER_INPUT_PASS;
+  }
+  play() {
+    this.gameStart();
+  }
+
+  startMention() {
+    if (this.firstTry === true) {
+      render.startment();
+      console.log(this.computerInput);
+    }
+  }
+
+  gameStart() {
+    this.startMention();
+
+    Console.readLine(GAME.START_GETNUMBER, (num) => {
+      this.userNum = this.numToArr(num);
+      this.checkVaild(this.userNum);
+    });
+  }
+
+  checkVaild(userNum) {
+    const checkUserInputValid = checkNumVaild.checkUserInput(userNum);
+
+    render.errorThrow(checkUserInputValid);
+
+    this.gameRender();
+  }
+
+  gameRender() {
+    const [userBallCount, userStrikeCount] = this.gameBallAndStrike();
+
+    render.result(userBallCount, userStrikeCount);
+
+    this.gameJudge(userStrikeCount);
+  }
+
+  gameJudge(userStrikeCount) {
+    if (userStrikeCount !== 3) {
+      this.notThreeStrike();
+    }
+    if (userStrikeCount === 3) {
+      Console.readLine(GAME.END_RETRY_MENTION, (retryOrEndNum) => {
+        this.userRetryNum = retryOrEndNum;
+        this.checkRetryNumVaild(this.userRetryNum);
+      });
+    }
+  }
+
+  gameBallAndStrike() {
+    const userInput = this.userNum;
+    const computerInput = this.computerInput;
+
+    const [userBallCount, userStrikeCount] = gameJudgment.judgement(
+      userInput,
+      computerInput
+    );
+
+    return [userBallCount, userStrikeCount];
+  }
+
+  checkRetryNumVaild() {
+    const checkUserRetryInputValid = checkRetryNumVaild.checkUserRetryInput(
+      this.userRetryNum
+    );
+
+    render.errorThrow(checkUserRetryInputValid);
+
+    this.retryOrEnd();
+  }
+
+  retryOrEnd() {
+    const userRetryNumber = this.userRetryNum;
+
+    if (userRetryNumber === "1") {
+      this.settingRetry();
+    }
+
+    if (userRetryNumber === "2") {
+      const render = new Render();
+      render.end();
+    }
+  }
+  numToArr(num) {
+    return [...String(num)];
+  }
+
+  settingRetry() {
+    this.firstTry = false;
+    this.computerInput = ComputerInput();
+    this.play();
+  }
+
+  notThreeStrike() {
+    this.firstTry = false;
+    this.play();
+  }
+}
+```
+현재의 코드
+```js
+class GameController {
+  getComputer() {
+    this.computer = Computer();
+  }
+
+  gameStartMent() {
+    UserOutput.start();
+    this.getComputer();
+  }
+
+  gameStart() {
+    UserInput.number((userInput) => {
+      validation.checkNumber(userInput);
+      this.gameCalculation(userInput);
+    });
+  }
+
+  gameCalculation(userInput) {
+    gameRule.totalCalculation(this.computer, userInput);
+    const gameResult = gameRule.result();
+    if (this.gameEnd(gameResult) === true) {
+      this.gameRetry(gameResult);
+
+      return;
+    }
+    this.gameContinue(gameResult);
+  }
+
+  gameContinue(result) {
+    UserOutput.showResult(result);
+    gameRule.reset();
+    this.gameStart();
+  }
+
+  gameRetry(result) {
+    UserOutput.showResult(result);
+    UserOutput.retry();
+    UserInput.retry((userInput) => {
+      validation.checkRetry(userInput);
+      if (gameRule.retry(userInput) === true) {
+        this.gameReplay();
+
+        return;
+      }
+      this.gameComplete();
+    });
+  }
+
+  gameReplay() {
+    gameRule.reset();
+    this.getComputer();
+    this.gameStart();
+  }
+  gameComplete() {
+    UserOutput.complete();
+  }
+
+  gameEnd(result) {
+    if (result[0] === 3) {
+      return true;
+    }
+  }
+}
+
+```
+현재의 코드는 전체적으로 길이가 줄어들었을 뿐 아니라 numToArray, settingRetry,notThreeStrike등 불필요한 메서드들을 줄이고 Model에서 이와 같은 처리를 하도록 설계하여 보기에 더 나은 코드를 보여준다. 
+
+
+### Model 
+
+가장 많이 바뀐 부분은 Model 이다! 이전에 Model에서 처리해야 할 것들을 Controller에서 처리한 부분이 많이 보였다. 
+이번 코딩에서는 Controller는 함수를 호출만하고 Model은 내부에서 최대한 일을 하도록 설계하였다. 전체 적인 코드를 먼저 비교 후 하나하나 되짚어 볼 것이다! 
+
+과거의 Game을 판단하는 Class(Model) 코드
+```js
+function countStrikeAndBall(user, computer) {
+  let ballCount = 0;
+  let strikeCount = 0;
+
+  for (let i = 0; i < 3; i++) {
+    if (user[i] === computer[i]) {
+      strikeCount = strikeCount + 1;
+    }
+    if (user[i] !== computer[i] && computer.includes(user[i])) {
+      ballCount = ballCount + 1;
+    }
+  }
+  return [ballCount, strikeCount];
+}
+
+class GameJudgment {
+  judgement(ballCount, strikeCount) {
+    const [userBallCount, userStrikeCount] = countStrikeAndBall(
+      ballCount,
+      strikeCount
+    );
+    return [userBallCount, userStrikeCount];
+  }
+}
+module.exports = GameJudgment;
+```
+1. 위 코드를 보면 Class 따로 function 따로 만들어져 굳이 class로 만들 이유를 찾기 힘들다..(왜 이렇게 했을까?)
+2. countStrikeAndBall이라는 메서드를 class 내부로 넣어 judment를 했다면 더 좋았을 텐데 라는 아쉬움이 남는다. 
+3. 또한 if 문이 두 번 사용이 되고 불필요한 return이 많아 이 코드가 최종적으로 무엇을 return하고 싶은건지알기 힘들다. 
+4. 매개변수명이 user, computer인데 이보단 userInput, ComputerInput 이 더 적절한 매개명수명이 됐을 거 같다.
+
+현재 Game을 판단하는 Class(Model) 코드
+```js
+class GameRule {
+  #strikeCount;
+  #ballCount;
+  constructor(strikeCount, ballCount) {
+    this.#strikeCount = strikeCount;
+    this.#ballCount = ballCount;
+  }
+  stringToArr(userInput) {
+    return userInput.split("");
+  }
+
+  strikeCountUp() {
+    this.#strikeCount = this.#strikeCount + 1;
+  }
+  ballCountUp() {
+    this.#ballCount = this.#ballCount + 1;
+  }
+
+  strikeCalulation(computer, userInput, i) {
+    if (computer[i] === this.stringToArr(userInput)[i]) {
+      this.strikeCountUp();
+    }
+  }
+  ballCalulation(computer, userInput, i) {
+    if (
+      computer.includes(this.stringToArr(userInput)[i]) &&
+      computer[i] !== this.stringToArr(userInput)[i]
+    ) {
+      this.ballCountUp();
+    }
+  }
+
+  totalCalculation(computer, userInput) {
+    for (let i = 0; i < 3; i++) {
+      this.strikeCalulation(computer, userInput, i);
+      this.ballCalulation(computer, userInput, i);
+    }
+  }
+
+  result() {
+    return [this.#strikeCount, this.#ballCount];
+  }
+
+  reset() {
+    this.#strikeCount = 0;
+    this.#ballCount = 0;
+  }
+
+  retry(userInput) {
+    if (userInput === "1") {
+      return true;
+    }
+    if (userInput === "2") {
+      return false;
+    }
+  }
+}
+
+module.exports = GameRule;
+
+```
+1.현재의 코드에서 class의 필드를 적극 활용하여 내부에서 최대한 값이 처리되도록 수정하였다. 
+
+2. setter함수인 strikeCountUp, ballCountUp,strikeCalculation, ballCalculation 등을 활용하여 값을 변경 시킨 후 getter 메서드인 result를 통해 strikecount와 ballcount를 밖으로 내보냈다. 
+
+3. 또한 반복문은 한 번만 실행시키기 위해 index의 값을 매개변수로 받아 for문 안에서 함수를 index값 만큼 실행시키도록 하였다. 
+
+4. stringToArr를 현재의 코드에서는 Controller가 아닌 Model에서 실행 시키도록 하였다. 이유는 string에서 array로 바꿔주는 것 역시 Model에서 실행되어야 코드가 깔끔해 진다고 판단하였다. 
+
+5. 전체적으로 현재의 코드가 더 나아보인다(부족한 점은 아직 너무나 많지만..)
+
+#### 타당성 검사 비교
+
+과거의 코드
+```js
+function checkLengthOfUserInput(userNum) {
+  if (userNum.length !== 3) {
+    return false;
+  }
+}
+function checkDuplicatesOfUserInput(userNum) {
+  let checkArr = [];
+  let i = 0;
+  for (; i < userNum.length; i++) {
+    if (checkArr.includes(userNum[i]) === true) {
+      return false;
+    }
+    checkArr.push(userNum[i]);
+  }
+}
+function checkRangeOfUserInput(userNum) {
+  if (/^[1-9]*$/g.test(userNum.join("")) === false) {
+    return false;
+  }
+}
+
+function checkRangeOfRetryUserInput(retryNum) {
+  if (/^[1-2]*$/g.test([...String(retryNum)].join("")) === false) {
+    return false;
+  }
+}
+function checkLengthOfRetryUserInput(retryNum) {
+  if ([...String(retryNum)].length !== 1) {
+    return false;
+  }
+}
+
+class CheckInputValid {
+  checkUserInput(userNum) {
+    if (checkLengthOfUserInput(userNum) === false) {
+      return ERROR.USER_INPUT_LENGTH;
+    }
+
+    if (checkDuplicatesOfUserInput(userNum) === false) {
+      return ERROR.USER_INPUT_DUPLICATES;
+    }
+
+    if (checkRangeOfUserInput(userNum) === false) {
+      return ERROR.USER_INPUT_RANGE;
+    }
+    return ERROR.USER_INPUT_PASS;
+  }
+
+  checkUserRetryInput(retryNum) {
+    if (checkRangeOfRetryUserInput(retryNum) === false) {
+      return ERROR.USER_RETRY_INPUT_RANGE;
+    }
+
+    if (checkLengthOfRetryUserInput(retryNum) === false) {
+      return ERROR.USER_RETRY_INPUT_LENGTH;
+    }
+    return ERROR.USER_INPUT_PASS;
+  }
+}
+module.exports = CheckInputValid;
+```
+1. 과거의 나는 타당성을 체크하는 class에서 바로 throw new Error를 날리지 않고 메세지를 리턴하는 방식을 사용했다. 하지만 이렇게 코드를 구성하니 코드가 길어 지고 지저분해졌음을 알 수 있었다.
+
+2. 또한 각 상황별 타당성을 체크하는 함수들을 클래스 내부 메서드에 두는 게 더 보기 좋았을 거 같다. 
+
+현재의 코드 
+```js
+class Validation {
+  stringToArr(userInput) {
+    return userInput.split("");
+  }
+
+  checkRange(userInput) {
+    let checkArr = [];
+    let i = 0;
+    for (; i < 3; i++) {
+      if (checkArr.includes(userInput[i])) {
+        return false;
+      }
+      checkArr.push(userInput[i]);
+    }
+    return true;
+  }
+
+  checkNumber(userInput) {
+    if (userInput.length !== 3) {
+      throw new Error(`3개의 숫자만 입력해주세요.`);
+    }
+    if (/^[1-9]*$/g.test(userInput) === false) {
+      throw new Error(`숫자만 입력해주세요.`);
+    }
+    if (this.checkRange(this.stringToArr(userInput)) === false) {
+      throw new Error(`반복되지 않는 3개의 숫자를 입력해주세요.`);
+    }
+  }
+  checkRetry(userInput) {
+    if (userInput.length !== 1) {
+      throw new Error(`1개의 숫자만 입력해주세요.`);
+    }
+    if (/^[1-2]*$/g.test(userInput) === false) {
+      throw new Error(`1 또는 2의 숫자만 입력해주세요`);
+    }
+  }
+}
+
+module.exports = Validation;
+
+```
+1. 현재의 코드는 과거의 코드보다 길이는 줄었지만 가독성의 측면에서 더 좋은 모습을 보인다고 생각한다.
