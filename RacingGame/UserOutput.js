@@ -21,6 +21,14 @@ class UserOutput {
       );
     });
   }
+  winningPerson(winningPerson) {
+    let winner = [];
+    winningPerson.forEach((winPerson) => {
+      winner.push(winPerson[0]);
+    });
+
+    Console.print(`최종 우승자 : ${winner.join(`, `)}`);
+  }
 }
 
 module.exports = UserOutput;
