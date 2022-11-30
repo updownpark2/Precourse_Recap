@@ -6,6 +6,7 @@ const UserOutput = require("./UserOutput");
 
 const gameRule = new GameRule();
 const validation = new Validation();
+const userOutput = new UserOutput();
 
 class GameController {
   getCarName() {
@@ -32,13 +33,13 @@ class GameController {
   }
 
   showResult(result, carName) {
-    const userOutput = new UserOutput();
     userOutput.resultment();
     userOutput.result(result, carName);
   }
 
   getWinningPerson() {
-    console.log(gameRule.getWinningPerson());
+    const winningPerson = gameRule.getWinningPerson();
+    userOutput.winningPerson(winningPerson);
   }
 }
 module.exports = GameController;
