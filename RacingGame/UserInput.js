@@ -6,6 +6,10 @@ const UserInput = {
       callback
     );
   },
+
+  tryCount: (callback) => {
+    Console.readLine(`시도할 횟수는 몇회인가요?`, callback);
+  },
 };
 
 module.exports = UserInput;
