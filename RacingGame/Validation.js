@@ -1,5 +1,3 @@
-const { carName } = require("./UserInput");
-
 class Validation {
   carName(carName) {
     let carNameArr = carName.split(",");
@@ -43,6 +41,12 @@ class Validation {
         );
       }
     });
+  }
+
+  tryCount(tryCount) {
+    if (/^[0-9]*$/g.test(tryCount) === false) {
+      throw new Error(`[ERROR] 숫자만 입력이 가능합니다.`);
+    }
   }
 }
 
