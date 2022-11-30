@@ -27,6 +27,23 @@ class GameRule {
   getResult() {
     return this.#result;
   }
+
+  findMaxNumber() {
+    let numberArr = [];
+    [...this.#result].forEach((result) => {
+      numberArr.push(result[1]);
+    });
+    return Math.max(...numberArr);
+  }
+
+  getWinningPerson() {
+    console.log(this.findMaxNumber());
+    let winningPerson = [...this.#result].filter(
+      (result) => result[1] === this.findMaxNumber()
+    );
+
+    return winningPerson;
+  }
 }
 
 module.exports = GameRule;
