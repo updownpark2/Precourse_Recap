@@ -1,3 +1,3 @@
-const MissionUtils = require("@woowacourse/mission-utils");
-
-MissionUtils.Console.print(`asd`);
+const App = require("./App");
+const app = new App();
+app.play();
