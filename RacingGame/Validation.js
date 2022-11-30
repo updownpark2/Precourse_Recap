@@ -3,16 +3,19 @@ const { carName } = require("./UserInput");
 class Validation {
   carName(carName) {
     let carNameArr = carName.split(",");
-    this.checkEnglish(carNameArr);
-    this.checkDuplication(carNameArr);
+    console.log(carNameArr);
     this.checkComma(carNameArr);
     this.checkLength(carNameArr);
+    this.checkEnglish(carNameArr);
+    this.checkDuplication(carNameArr);
   }
 
   checkEnglish(carNameArr) {
-    if (/^[a-zA-Z]*$/g.test(carNameArr) === false) {
-      throw new Error(`[ERROR] 영어,영어의 형태로 입력이 가능합니다.`);
-    }
+    carNameArr.forEach((carName) => {
+      if (/^[a-z|A-Z]+$/g.test(carName) === false) {
+        throw new Error(`[ERROR] 영어,영어의 형태로 입력이 가능합니다.`);
+      }
+    });
   }
   checkDuplication(carNameArr) {
     let checkArr = [];
@@ -26,7 +29,7 @@ class Validation {
   }
   checkComma(carNameArr) {
     carNameArr.forEach((carName) => {
-      if (carName === ``) {
+      if (carName === "") {
         throw new Error(`[ERROR] ,,가 연속으로 입력 되었습니다.`);
       }
     });
