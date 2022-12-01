@@ -1,6 +1,6 @@
 class BridgeGame {
   #result = [[], []];
-
+  #count = 0;
   upPass() {
     this.#result[0].push(`O`);
     this.#result[1].push(` `);
@@ -18,44 +18,48 @@ class BridgeGame {
     this.#result[1].push(`X`);
   }
 
-  checkPass(bridge, move, index) {
-    if (bridge[index] === move) {
+  countUp() {
+    this.#count = this.#count + 1;
+  }
+
+  checkPass(bridge, move) {
+    if (bridge[this.#count] === move) {
       return true;
     }
     return false;
   }
 
-  checkUpDown(bridge, index) {
-    if (bridge[index] === "U") {
+  checkUpDown(bridge) {
+    if (bridge[this.#count] === "U") {
       return "Up";
     }
     return "Down";
   }
 
-  passCase(bridge, index) {
-    if (this.checkUpDown(bridge, index) === "Up") {
+  passCase(bridge) {
+    if (this.checkUpDown(bridge) === "Up") {
       this.upPass();
     }
-    if (this.checkUpDown(bridge, index) === "Down") {
+    if (this.checkUpDown(bridge) === "Down") {
       this.downPass();
     }
   }
 
-  failCase(bridge, index) {
-    if (this.checkUpDown(bridge, index) === "Up") {
+  failCase(bridge) {
+    if (this.checkUpDown(bridge) === "Up") {
       this.upFail();
     }
-    if (this.checkUpDown(bridge, index) === "Down") {
+    if (this.checkUpDown(bridge) === "Down") {
       this.downFail();
     }
   }
 
-  move(bridge, move, index) {
-    if (this.checkPass(bridge, move, index) === true) {
-      this.passCase(bridge, index);
+  move(bridge, move) {
+    if (this.checkPass(bridge, move) === true) {
+      this.passCase(bridge);
     }
-    if (this.checkPass(bridge, move, index) === false) {
-      this.failCase(bridge, index);
+    if (this.checkPass(bridge, move) === false) {
+      this.failCase(bridge);
     }
   }
 
@@ -63,17 +67,5 @@ class BridgeGame {
     return this.#result;
   }
 }
-/*
- if (move === "U" && bridge[index] === move) {
-      this.upPass();
-    }
-    if (move === "D" && bridge[index] === move) {
-      this.downPass();
-    }
-    if (move === "U" && bridge[index] !== move) {
-      this.upFail();
-    }
-    if (move === "D" && bridge[index] !== move) {
-      this.downFail();
-    }
-*/
+
+module.exports = BridgeGame;
