@@ -1,7 +1,6 @@
 const UserInput = require("./UserInput");
 const Validation = require("./Validation");
 const GameRule = require("./GameRule");
-const { carName } = require("./UserInput");
 const UserOutput = require("./UserOutput");
 
 const gameRule = new GameRule();
@@ -24,6 +23,7 @@ class GameController {
   getResult(carName, tryCount) {
     let i = 0;
     gameRule.settingResult(carName);
+    userOutput.resultment();
     for (; i < tryCount; i++) {
       gameRule.calculation(carName);
       const result = gameRule.getResult();
@@ -33,8 +33,8 @@ class GameController {
   }
 
   showResult(result, carName) {
-    userOutput.resultment();
     userOutput.result(result, carName);
+    userOutput.lineBreak();
   }
 
   getWinningPerson() {

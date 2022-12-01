@@ -37,7 +37,6 @@ class GameRule {
   }
 
   getWinningPerson() {
-    console.log(this.findMaxNumber());
     let winningPerson = [...this.#result].filter(
       (result) => result[1] === this.findMaxNumber()
     );

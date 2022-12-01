@@ -1,5 +1,9 @@
 const { Console } = require("@woowacourse/mission-utils");
 class UserOutput {
+  lineBreak() {
+    Console.print(``);
+  }
+
   resultment() {
     Console.print(`실행 결과`);
   }
@@ -16,9 +20,7 @@ class UserOutput {
   result(result, carName) {
     let carNameArr = carName.split(",");
     carNameArr.forEach((carName) => {
-      Console.print(
-        `${carName} : ${this.numberToStick(result.get(carName))}\n`
-      );
+      Console.print(`${carName} : ${this.numberToStick(result.get(carName))}`);
     });
   }
   winningPerson(winningPerson) {
