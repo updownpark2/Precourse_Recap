@@ -7,5 +7,10 @@ class Validation {
       throw new Error(`[ERROR] 숫자만 입력 해주세요.`);
     }
   }
+  userMove(userMove) {
+    if (userMove !== "U" || userMove !== "D") {
+      throw new Error(`[ERROR] U 혹은 D 만 입력해주세요.`);
+    }
+  }
 }
 module.exports = Validation;
