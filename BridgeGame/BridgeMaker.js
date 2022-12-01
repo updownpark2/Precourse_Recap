@@ -3,7 +3,8 @@ const BridgeMaker = {
     let bridge = [];
     for (let i = 0; i < size; i++) {
       let alpabet = ["D", "U"];
-      bridge.push(alpabet[generateRandomNumber]);
+      const randomNum = generateRandomNumber();
+      bridge.push(alpabet[randomNum]);
     }
     return bridge;
   },
