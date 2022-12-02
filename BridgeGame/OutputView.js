@@ -9,6 +9,10 @@ const OutputView = {
     Console.print(`[ ${result[0].join(` | `).split(`, `)} ]`);
     Console.print(`[ ${result[1].join(` | `).split(`, `)} ]`);
   },
+
+  end() {
+    Console.print(`수고하셨습니다.`);
+  },
 };
 
 module.exports = OutputView;
