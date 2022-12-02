@@ -15,5 +15,14 @@ class Validation {
       throw new Error(`[ERROR] 숫자만 입력 해주세요.`);
     }
   }
+
+  retry(retry) {
+    if (retry.length !== 1) {
+      throw new Error(`U또는 D 한 알파벳만 입력해주세요`);
+    }
+    if (/^[R|Q]$/g.test(retry) === false) {
+      throw new Error(`[ERROR] 숫자만 입력 해주세요.`);
+    }
+  }
 }
 module.exports = Validation;
