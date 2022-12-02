@@ -67,7 +67,7 @@ class BridgeController {
     OutputView.result(result);
 
     if (this.gameComplete(result, bridge) === true) {
-      this.end();
+      this.end("성공", result);
 
       return;
     }
@@ -84,7 +84,7 @@ class BridgeController {
 
   retryOrMove(bridge, result) {
     if (this.checkFail(result) === true) {
-      this.getRetry(bridge);
+      this.getRetry(bridge, result);
 
       return;
     }
@@ -113,29 +113,30 @@ class BridgeController {
     }
   }
 
-  getRetry(bridge) {
+  getRetry(bridge, result) {
     InputView.retry((retry) => {
       if (this.checkValidationRetry(retry) === false) {
         this.getRetry();
 
         return;
       }
-      this.retryOrEnd(retry, bridge);
+      this.retryOrEnd(retry, bridge, result);
     });
   }
 
-  retryOrEnd(retry, bridge) {
+  retryOrEnd(retry, bridge, result) {
     if (bridgeGame.checkRetry(retry) === true) {
       bridgeGame.reset();
       this.getMove(bridge);
 
       return;
     }
-    this.end();
+    this.end("실패", result);
   }
-  end() {
+  end(passOrFail, result) {
     const tryCount = bridgeGame.getTryCount();
-    OutputView.end(tryCount);
+    OutputView.result(result);
+    OutputView.end(tryCount, passOrFail);
     Console.close();
   }
 }
