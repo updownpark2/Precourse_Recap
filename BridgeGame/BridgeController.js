@@ -71,11 +71,15 @@ class BridgeController {
 
   retryOrMove(bridge, result) {
     if (this.checkFail(result) === true) {
-      this.getRetry();
+      this.getRetry(bridge);
 
       return;
     }
     this.getMove(bridge);
+  }
+
+  getResult() {
+    return bridgeGame.getResult();
   }
 
   checkFail(result) {
@@ -86,14 +90,35 @@ class BridgeController {
     }
   }
 
-  getRetry() {
+  checkValidationRetry(retry) {
+    try {
+      validation.retry(retry);
+    } catch (error) {
+      Console.print(error);
+
+      return false;
+    }
+  }
+
+  getRetry(bridge) {
     InputView.retry((retry) => {
-      Console.print(retry);
+      if (this.checkValidationRetry(retry) === false) {
+        this.getRetry();
+
+        return;
+      }
+      this.retryOrEnd(retry, bridge);
     });
   }
 
-  getResult() {
-    return bridgeGame.getResult();
+  retryOrEnd(retry, bridge) {
+    if (bridgeGame.checkRetry(retry) === true) {
+      this.getMove(bridge);
+
+      return;
+    }
+    OutputView.end();
+    Console.close();
   }
 }
 
