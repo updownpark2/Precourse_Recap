@@ -66,7 +66,20 @@ class BridgeController {
     const result = bridgeGame.getResult();
     OutputView.result(result);
 
+    if (this.gameComplete(result, bridge) === true) {
+      this.end();
+
+      return;
+    }
     this.retryOrMove(bridge, result);
+  }
+
+  gameComplete(result, bridge) {
+    let endPoint = bridge.length - 1;
+    if (result[0][endPoint] === "O" || result[1][endPoint] === "O") {
+      return true;
+    }
+    return false;
   }
 
   retryOrMove(bridge, result) {
@@ -113,11 +126,16 @@ class BridgeController {
 
   retryOrEnd(retry, bridge) {
     if (bridgeGame.checkRetry(retry) === true) {
+      bridgeGame.reset();
       this.getMove(bridge);
 
       return;
     }
-    OutputView.end();
+    this.end();
+  }
+  end() {
+    const tryCount = bridgeGame.getTryCount();
+    OutputView.end(tryCount);
     Console.close();
   }
 }
