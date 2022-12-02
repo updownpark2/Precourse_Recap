@@ -8,8 +8,11 @@ class Validation {
     }
   }
   userMove(userMove) {
-    if (userMove !== "U" || userMove !== "D") {
-      throw new Error(`[ERROR] U 혹은 D 만 입력해주세요.`);
+    if (userMove.length !== 1) {
+      throw new Error(`U또는 D 한 알파벳만 입력해주세요`);
+    }
+    if (/^[U|D]$/g.test(userMove) === false) {
+      throw new Error(`[ERROR] 숫자만 입력 해주세요.`);
     }
   }
 }
