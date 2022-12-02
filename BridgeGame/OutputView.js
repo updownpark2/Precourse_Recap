@@ -10,8 +10,9 @@ const OutputView = {
     Console.print(`[ ${result[1].join(` | `).split(`, `)} ]`);
   },
 
-  end() {
+  end(tryCount) {
     Console.print(`수고하셨습니다.`);
+    Console.print(`시도 횟수는 ${tryCount}회 입니다.`);
   },
 };
 

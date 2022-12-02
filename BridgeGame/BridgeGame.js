@@ -1,6 +1,7 @@
 class BridgeGame {
   #result = [[], []];
   #count = 0;
+  #tryCount = 1;
   upPass() {
     this.#result[0].push(`O`);
     this.#result[1].push(` `);
@@ -16,6 +17,16 @@ class BridgeGame {
   downFail() {
     this.#result[0].push(` `);
     this.#result[1].push(`X`);
+  }
+
+  reset() {
+    this.#result = [[], []];
+    this.#count = 0;
+    this.tryCountUp();
+  }
+
+  tryCountUp() {
+    this.#tryCount = this.#tryCount + 1;
   }
 
   countUp() {
@@ -61,10 +72,22 @@ class BridgeGame {
     if (this.checkPass(bridge, move) === false) {
       this.failCase(bridge);
     }
+    this.countUp();
   }
 
   getResult() {
     return this.#result;
+  }
+
+  getTryCount() {
+    return this.#tryCount;
+  }
+
+  checkRetry(retry) {
+    if (retry === "R") {
+      return true;
+    }
+    return false;
   }
 }
 
