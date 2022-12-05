@@ -20,17 +20,24 @@ export class TodoMake {
     Button.innerText = `제출`;
   }
 
-  pushTodo(userTodo) {
-    this.#userTodoArr.push(userTodo);
+  makeTodobox($target) {
+    const todoBox = document.createElement("div");
+    $target.appendChild(todoBox);
   }
 
-  saveToLocal() {
-    const jsonString = this.arrToJoson();
-    localStorage.setItem("todo", jsonString);
+  makeUl(todoBox) {
+    const ul = document.createElement("ul");
+    todoBox.appendChild(ul);
   }
 
-  arrToJoson() {
-    const jsonString = JSON.stringify(this.#userTodoArr);
-    return jsonString;
+  makeUserTodoArr(userTodo) {
+    const getItem = localStorage.getItem("todo");
+    this.#userTodoArr = [...getItem, userTodo];
+  }
+
+  saveLocal(userTodo) {
+    this.makeUserTodoArr(userTodo);
+    const userTodoArr = JSON.stringify(this.#userTodoArr);
+    localStorage.setItem("todo", userTodoArr);
   }
 }
