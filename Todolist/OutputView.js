@@ -1,9 +1,12 @@
 export class OutputView {
   userTodo() {
-    const ul = document.querySelector("ul");
+    const ul = document.getElementById(`UL`);
     const userTodoArr = JSON.parse(localStorage.getItem("todo"));
+    console.log(userTodoArr);
     userTodoArr.forEach((todo) => {
-      ul.innerHTML = `<li>${todo}</li>`;
+      const li = document.createElement(`li`);
+      ul.appendChild(li);
+      li.innerHTML = `${todo}`;
     });
   }
 }
