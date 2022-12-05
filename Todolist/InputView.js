@@ -1,4 +1,12 @@
-export default function InputView(callback) {
-  const form = document.getElementById(`box`);
-  form.addeventlistener("submit", callback);
+export class InputView {
+  #input;
+
+  setInput(callback) {
+    const form = document.getElementById(`FORM`);
+    form.addEventListener("submit", callback);
+  }
+
+  getInput() {
+    return this.#input;
+  }
 }
