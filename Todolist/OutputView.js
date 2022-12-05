@@ -9,4 +9,10 @@ export class OutputView {
       li.innerHTML = `${todo}`;
     });
   }
+  plusTodo(userTodo) {
+    const ul = document.getElementById(`UL`);
+    const li = document.createElement(`li`);
+    ul.appendChild(li);
+    li.innerHTML = `${userTodo}`;
+  }
 }
