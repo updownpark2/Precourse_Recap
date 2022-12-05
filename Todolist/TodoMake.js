@@ -31,7 +31,11 @@ export class TodoMake {
   }
 
   makeUserTodoArr(userTodo) {
-    const getItem = localStorage.getItem("todo");
+    const getItem = JSON.parse(localStorage.getItem("todo"));
+    if (getItem === null) {
+      this.#userTodoArr = [userTodo];
+      return;
+    }
     this.#userTodoArr = [...getItem, userTodo];
   }
 
