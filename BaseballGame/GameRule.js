@@ -38,6 +38,15 @@ class GameRule {
       this.#ballCountUp();
     }
   }
+
+  judgementRetry(retry) {
+    if (retry === "1") {
+      return true;
+    }
+    if (retry === "2") {
+      return false;
+    }
+  }
 }
 
 module.exports = GameRule;

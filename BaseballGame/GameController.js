@@ -36,16 +36,21 @@ class GameController {
   gameContinueOrRetry(gameResult) {
     if (gameResult.get(`strike`) === 3) {
       this.gameRetry(gameResult);
+      return;
     }
     if (gameResult.get("strike") !== 3) {
       this.gameContinue(gameResult);
+      return;
     }
   }
 
   gameRetry(gameResult) {
-    this.showEnd();
     this.gameSet(gameResult);
-    InputView.getRetry((retry) => {});
+    this.showEnd();
+    InputView.getRetry((retry) => {
+      validation.checkRetry(retry);
+      this.retryOrEnd(retry);
+    });
   }
 
   gameContinue(gameResult) {
@@ -69,6 +74,15 @@ class GameController {
 
   showResult(result) {
     OutputView.result(result);
+  }
+
+  retryOrEnd(retry) {
+    if (gameRule.judgementRetry(retry)) {
+      this.#makeRandomNum();
+      this.#getNumber();
+      return;
+    }
+    OutputView.bye();
   }
 }
 module.exports = GameController;

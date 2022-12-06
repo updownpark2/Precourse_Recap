@@ -21,6 +21,11 @@ const OutputView = {
   end: () => {
     Console.print(`3개의 숫자를 모두 맞히셨습니다! 게임 종료`);
   },
+
+  bye: () => {
+    Console.print(`수고하셨습니당!⚾️`);
+    Console.close();
+  },
 };
 
 module.exports = OutputView;
