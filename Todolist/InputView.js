@@ -1,3 +1,6 @@
 export class InputView {
-  getUserTodo() {}
+  getUserTodo(callback) {
+    const form = document.getElementById(`FORM`);
+    form.addEventListener(`submit`, callback);
+  }
 }
