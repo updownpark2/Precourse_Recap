@@ -2,6 +2,7 @@ const MakeRandomNum = require(`./MakeRandomNum`);
 const InputView = require(`./InputView`);
 const Validation = require(`./Validation`);
 const GameRule = require(`./GameRule`);
+const OutputView = require(`./OutputView`);
 
 const validation = new Validation();
 const gameRule = new GameRule();
@@ -28,13 +29,27 @@ class GameController {
     InputView.getNumber((number) => {
       validation.CheckNumber(number);
       const gameResult = this.getResult(number, this.#randomNumArr);
-      console.log(gameResult);
+      this.judgementSuccess(gameResult);
     });
+  }
+
+  judgementSuccess(gameResult) {
+    if (gameResult.get(`strike`) === 3) {
+      this.showResult(gameResult);
+      return;
+    }
+    this.showResult(gameResult);
+    gameRule.resetResult();
+    this.#getNumber();
   }
 
   getResult(number, randomNumArr) {
     gameRule.totalJudgement(number, randomNumArr);
     return gameRule.getResult();
+  }
+
+  showResult(result) {
+    OutputView.result(result);
   }
 }
 module.exports = GameController;
