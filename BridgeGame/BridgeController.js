@@ -45,6 +45,7 @@ class BridgeController {
     InputView.userMove((move) => {
       if (this.checkValidationMove(move) === false) {
         this.getMove(bridge);
+
         return;
       }
       this.resultMakeAndShow(bridge, move);
@@ -65,7 +66,6 @@ class BridgeController {
     bridgeGame.move(bridge, move);
     const result = bridgeGame.getResult();
     OutputView.result(result);
-
     if (this.gameComplete(result, bridge) === true) {
       this.end("성공", result);
 
@@ -133,6 +133,7 @@ class BridgeController {
     }
     this.end("실패", result);
   }
+
   end(passOrFail, result) {
     const tryCount = bridgeGame.getTryCount();
     OutputView.result(result);

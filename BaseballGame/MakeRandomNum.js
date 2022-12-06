@@ -8,6 +8,7 @@ function MakeRandomNum() {
       computer.push(number);
     }
   }
+  return computer;
 }
 
 module.exports = MakeRandomNum;
