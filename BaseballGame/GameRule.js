@@ -20,15 +20,22 @@ class GameRule {
     this.#CountBallAndStrike.set(`strike`, 0);
   }
 
+  totalJudgement(number, randomNumArr) {
+    for (let i = 0; i < 3; i++) {
+      this.judgement(number, randomNumArr, i);
+    }
+  }
+
   judgement(number, randomNumArr, index) {
     const userNumArr = number.split("");
     if (userNumArr[index] === randomNumArr[index]) {
       this.#strikeCountUp();
-      return;
     }
-    if (randomNumArr.includes(userNumArr[index])) {
+    if (
+      randomNumArr.includes(userNumArr[index]) &&
+      userNumArr[index] !== randomNumArr[index]
+    ) {
       this.#ballCountUp();
-      return;
     }
   }
 }

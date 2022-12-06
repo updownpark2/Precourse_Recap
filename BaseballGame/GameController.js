@@ -14,11 +14,11 @@ class GameController {
     console.log(this.#randomNumArr);
   }
 
-  startMent() {
+  gameStartMent() {
     InputView.startMent();
   }
 
-  start() {
+  gameStart() {
     this.#makeRandomNum();
     gameRule.resetResult();
     this.#getNumber();
@@ -33,10 +33,7 @@ class GameController {
   }
 
   getResult(number, randomNumArr) {
-    let i = 0;
-    for (; i < 3; i++) {
-      gameRule.judgement(number, randomNumArr, i);
-    }
+    gameRule.totalJudgement(number, randomNumArr);
     return gameRule.getResult();
   }
 }
