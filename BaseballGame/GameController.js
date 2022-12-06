@@ -29,23 +29,42 @@ class GameController {
     InputView.getNumber((number) => {
       validation.CheckNumber(number);
       const gameResult = this.getResult(number, this.#randomNumArr);
-      this.judgementSuccess(gameResult);
+      this.gameContinueOrRetry(gameResult);
     });
   }
 
-  judgementSuccess(gameResult) {
+  gameContinueOrRetry(gameResult) {
     if (gameResult.get(`strike`) === 3) {
-      this.showResult(gameResult);
-      return;
+      this.gameRetry(gameResult);
     }
+    if (gameResult.get("strike") !== 3) {
+      this.gameContinue(gameResult);
+    }
+  }
+
+  gameRetry(gameResult) {
+    this.showEnd();
+    this.gameSet(gameResult);
+    InputView.getRetry((retry) => {});
+  }
+
+  gameContinue(gameResult) {
+    this.gameSet(gameResult);
+    this.#getNumber();
+  }
+
+  gameSet(gameResult) {
     this.showResult(gameResult);
     gameRule.resetResult();
-    this.#getNumber();
   }
 
   getResult(number, randomNumArr) {
     gameRule.totalJudgement(number, randomNumArr);
     return gameRule.getResult();
+  }
+
+  showEnd() {
+    OutputView.end();
   }
 
   showResult(result) {

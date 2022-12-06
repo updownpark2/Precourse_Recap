@@ -17,6 +17,10 @@ const OutputView = {
       Console.print(`${ballCount}볼 ${strikeCount}스트라이크`);
     }
   },
+
+  end: () => {
+    Console.print(`3개의 숫자를 모두 맞히셨습니다! 게임 종료`);
+  },
 };
 
 module.exports = OutputView;
