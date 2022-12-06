@@ -1,13 +1,20 @@
-const MakeRandomNum = require("./MakeRandomNum");
+const MakeRandomNum = require(`./MakeRandomNum`);
+const InputView = require(`./InputView`);
 
 class GameController {
   #randomNumArr;
 
-  makeRandomNum() {
+  #makeRandomNum() {
     this.#randomNumArr = MakeRandomNum();
   }
 
+  startMent() {
+    InputView.startMent();
+  }
+
   start() {
-    this.makeRandomNum();
+    this.#makeRandomNum();
   }
 }
+
+module.exports = GameController;
