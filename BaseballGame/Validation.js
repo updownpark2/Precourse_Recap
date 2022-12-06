@@ -7,7 +7,7 @@ class Validation {
     if (number.length !== 3) {
       throw new Error(`[ERROR] 3개의 숫자만 입력할 수 있습니다.`);
     }
-    if (/^[0-9]*$/g.test(number) === false) {
+    if (/^[1-9]*$/g.test(number) === false) {
       throw new Error(`[ERROR] 숫자만 입력이 가능합니다.`);
     }
   }
