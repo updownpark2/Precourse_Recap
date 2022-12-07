@@ -16,32 +16,56 @@ class LottoController {
   #getMoney() {
     InputView.money((money) => {
       const lottoCount = this.#getLottoCount(money);
-      this.#checkValidationMoney(money, lottoCount);
+      this.#checkMoneyValidation(money, lottoCount);
+      this.#getWinNum();
     });
   }
 
   #getWinNum() {
-    InputView.winNum((winNum) => {});
+    InputView.winNum((winNum) => {
+      validation.checkWinNum(winNum);
+      this.#checkWinNumValidation(winNum);
+    });
   }
 
-  #validationPass(lottoCount) {
+  #getBonusNum() {}
+
+  #checkWinNumValidation(winNum) {
+    try {
+      validation.checkWinNum(winNum);
+    } catch (error) {
+      this.#validationWinNumFail();
+      return;
+    }
+    this.#validationWinNumPass();
+  }
+
+  #validationWinNumPass() {
+    this.#getBonusNum();
+  }
+
+  #validationWinNumFail() {
+    this.#getWinNum();
+  }
+
+  #validationMoneyPass(lottoCount) {
     this.#showLottoCount(lottoCount);
     this.#showLotto(lottoCount);
   }
 
-  #validationFail(error) {
+  #validationMoneyFail(error) {
     OutputView.showError(error);
     this.#getMoney();
   }
 
-  #checkValidationMoney(money, lottoCount) {
+  #checkMoneyValidation(money, lottoCount) {
     try {
       validation.checkMoney(money);
     } catch (error) {
-      this.#validationFail(error);
+      this.#validationMoneyFail(error);
       return;
     }
-    this.#validationPass(lottoCount);
+    this.#validationMoneyPass(lottoCount);
   }
 
   #getLottoCount(money) {
