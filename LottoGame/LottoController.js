@@ -2,6 +2,8 @@ const InputView = require(`./InputView`);
 const Validation = require(`./Validation`);
 const LottoRule = require("./LottoRule");
 const OutputView = require("./OutputView");
+const LottoMake = require("./LottoMake");
+const { lottoCount } = require("./OutputView");
 
 const validation = new Validation();
 const lottoRule = new LottoRule();
@@ -25,6 +27,14 @@ class LottoController {
 
   #showLottoCount(lottoCount) {
     OutputView.lottoCount(lottoCount);
+  }
+
+  #showLotto(lottoCount) {
+    const lotto = this.#getLotto(lottoCount);
+  }
+
+  #getLotto(lottoCount) {
+    return LottoMake(lottoCount);
   }
 }
 
