@@ -20,6 +20,10 @@ class LottoController {
     });
   }
 
+  #getWinNum() {
+    InputView.winNum((winNum) => {});
+  }
+
   #validationPass(lottoCount) {
     this.#showLottoCount(lottoCount);
     this.#showLotto(lottoCount);

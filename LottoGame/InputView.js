@@ -2,7 +2,11 @@ const { Console } = require("@woowacourse/mission-utils");
 
 const InputView = {
   money(callback) {
-    Console.print("구매할 금액을 입력하세요.🤑", callback);
+    Console.readLine(`구매할 금액을 입력하세요.🤑\n`, callback);
+  },
+
+  winNum(callback) {
+    Console.readLine(`당첨번호를 입력해주세요.🎱`, callback);
   },
 };
 
