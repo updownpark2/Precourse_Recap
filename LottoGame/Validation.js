@@ -6,7 +6,7 @@ class Validation {
   }
 
   #checkOnlyNum(money) {
-    if (/^[0-9]+$/g.test(money) === false) {
+    if (/^[0-9]*$/g.test(money) === false) {
       throw new Error(`[ERROR] 숫자만을 입력해주세요.`);
     }
   }
@@ -17,10 +17,10 @@ class Validation {
     }
   }
 
-  checkMoney() {
-    this.#checkOnlyNum();
-    this.#checkUnit();
-    this.#checkZero();
+  checkMoney(money) {
+    this.#checkOnlyNum(money);
+    this.#checkUnit(money);
+    this.#checkZero(money);
   }
 }
 
