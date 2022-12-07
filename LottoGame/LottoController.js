@@ -1,8 +1,13 @@
 const InputView = require(`./InputView`);
+const Validation = require(`./Validation`);
+
+const validation = new Validation();
 
 class LottoController {
   getMoney() {
-    InputView.money((money) => {});
+    InputView.money((money) => {
+      validation.checkMoney(money);
+    });
   }
 }
 
