@@ -7,7 +7,11 @@ const validation = new Validation();
 const lottoRule = new LottoRule();
 
 class LottoController {
-  getMoney() {
+  start() {
+    this.#getMoney();
+  }
+
+  #getMoney() {
     InputView.money((money) => {
       validation.checkMoney(money);
       const lottoCount = this.#getLottoCount(money);
