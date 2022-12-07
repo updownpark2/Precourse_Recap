@@ -16,6 +16,10 @@ const OutputView = {
       Console.print(`[${standardLotto}]`);
     }
   },
+
+  showError(error) {
+    Console.print(error);
+  },
 };
 
 module.exports = OutputView;

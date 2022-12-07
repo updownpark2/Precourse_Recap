@@ -3,7 +3,7 @@ const Validation = require(`./Validation`);
 const LottoRule = require("./LottoRule");
 const OutputView = require("./OutputView");
 const LottoMake = require("./LottoMake");
-const { lottoCount, lotto } = require("./OutputView");
+const { money } = require("./InputView");
 
 const validation = new Validation();
 const lottoRule = new LottoRule();
@@ -15,11 +15,29 @@ class LottoController {
 
   #getMoney() {
     InputView.money((money) => {
-      validation.checkMoney(money);
       const lottoCount = this.#getLottoCount(money);
-      this.#showLottoCount(lottoCount);
-      this.#showLotto(lottoCount);
+      this.#checkValidationMoney(money, lottoCount);
     });
+  }
+
+  #validationPass(lottoCount) {
+    this.#showLottoCount(lottoCount);
+    this.#showLotto(lottoCount);
+  }
+
+  #validationFail(error) {
+    OutputView.showError(error);
+    this.#getMoney();
+  }
+
+  #checkValidationMoney(money, lottoCount) {
+    try {
+      validation.checkMoney(money);
+    } catch (error) {
+      this.#validationFail(error);
+      return;
+    }
+    this.#validationPass(lottoCount);
   }
 
   #getLottoCount(money) {
