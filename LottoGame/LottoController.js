@@ -3,7 +3,7 @@ const Validation = require(`./Validation`);
 const LottoRule = require("./LottoRule");
 const OutputView = require("./OutputView");
 const LottoMake = require("./LottoMake");
-const { lottoCount } = require("./OutputView");
+const { lottoCount, lotto } = require("./OutputView");
 
 const validation = new Validation();
 const lottoRule = new LottoRule();
@@ -18,6 +18,7 @@ class LottoController {
       validation.checkMoney(money);
       const lottoCount = this.#getLottoCount(money);
       this.#showLottoCount(lottoCount);
+      this.#showLotto(lottoCount);
     });
   }
 
@@ -31,6 +32,7 @@ class LottoController {
 
   #showLotto(lottoCount) {
     const lotto = this.#getLotto(lottoCount);
+    OutputView.lotto(lotto);
   }
 
   #getLotto(lottoCount) {
