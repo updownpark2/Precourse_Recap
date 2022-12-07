@@ -3,7 +3,7 @@ const Validation = require(`./Validation`);
 const LottoRule = require("./LottoRule");
 const OutputView = require("./OutputView");
 const LottoMake = require("./LottoMake");
-const { money } = require("./InputView");
+const { winNum } = require("./InputView");
 
 const validation = new Validation();
 const lottoRule = new LottoRule();
@@ -16,58 +16,73 @@ class LottoController {
   #getMoney() {
     InputView.money((money) => {
       const lottoCount = this.#getLottoCount(money);
-      this.#checkMoneyValidation(money, lottoCount);
-      this.#getWinNum();
+      if (this.#checkMoney(money, lottoCount) !== false) {
+        this.#getWinNum(money);
+      }
     });
   }
 
-  #getWinNum() {
+  #getWinNum(money) {
     InputView.winNum((winNum) => {
-      validation.checkWinNum(winNum);
-      this.#checkWinNumValidation(winNum);
+      if (this.#checkWinNum(winNum) !== false) {
+        this.#getBonusNum(winNum, money);
+      }
     });
   }
 
-  #getBonusNum() {
-    InputView.bonusNum((bonusNum) => {});
+  #getBonusNum(winNum, money) {
+    InputView.bonusNum((bonusNum) => {
+      if (this.#checkBonusNum(winNum, bonusNum) !== false) {
+        console.log(money);
+      }
+    });
   }
 
-  #checkWinNumValidation(winNum) {
+  #checkMoney(money, lottoCount) {
     try {
-      validation.checkWinNum(winNum);
+      validation.checkMoney(money);
     } catch (error) {
-      this.#validationWinNumFail();
-      return;
+      this.#failCheckMoney(error);
+      return false;
     }
-    this.#validationWinNumPass();
+    this.#passCheckMoney(lottoCount);
   }
-
-  #validationWinNumPass() {
-    this.#getBonusNum();
-  }
-
-  #validationWinNumFail() {
-    this.#getWinNum();
-  }
-
-  #validationMoneyPass(lottoCount) {
-    this.#showLottoCount(lottoCount);
-    this.#showLotto(lottoCount);
-  }
-
-  #validationMoneyFail(error) {
+  #failCheckMoney(error) {
     OutputView.showError(error);
     this.#getMoney();
   }
 
-  #checkMoneyValidation(money, lottoCount) {
+  #passCheckMoney(lottoCount) {
+    this.#showLottoCount(lottoCount);
+    this.#showLotto(lottoCount);
+  }
+
+  #checkWinNum(winNum) {
     try {
-      validation.checkMoney(money);
+      validation.checkWinNum(winNum);
     } catch (error) {
-      this.#validationMoneyFail(error);
-      return;
+      this.#failCheckWinNum(error);
+      return false;
     }
-    this.#validationMoneyPass(lottoCount);
+  }
+
+  #failCheckWinNum(error) {
+    OutputView.showError(error);
+    this.#getWinNum();
+  }
+
+  #checkBonusNum(winNum, bonusNum) {
+    try {
+      validation.checkBonusNum(winNum, bonusNum);
+    } catch (error) {
+      this.#failCheckBonusNum(winNum, error);
+      return false;
+    }
+  }
+
+  #failCheckBonusNum(winNum, error) {
+    OutputView.showError(error);
+    this.#getBonusNum(winNum);
   }
 
   #getLottoCount(money) {
