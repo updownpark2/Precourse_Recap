@@ -28,7 +28,9 @@ class LottoController {
     });
   }
 
-  #getBonusNum() {}
+  #getBonusNum() {
+    InputView.bonusNum((bonusNum) => {});
+  }
 
   #checkWinNumValidation(winNum) {
     try {

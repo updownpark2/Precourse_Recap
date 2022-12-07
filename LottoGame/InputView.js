@@ -8,6 +8,10 @@ const InputView = {
   winNum(callback) {
     Console.readLine(`당첨번호를 입력해주세요.🎱`, callback);
   },
+
+  bonusNum(callback) {
+    Console.readLine(`보너스번호를 입력해주세요.⚽️`, callback);
+  },
 };
 
 module.exports = InputView;
