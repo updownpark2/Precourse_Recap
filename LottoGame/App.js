@@ -1,5 +1,10 @@
-const { Console, Random } = require("@woowacourse/mission-utils");
+const LottoController = require("./LottoController");
 
 class App {
-  play() {}
+  play() {
+    const lottoController = new LottoController();
+    lottoController.start();
+  }
 }
+
+module.exports = App;

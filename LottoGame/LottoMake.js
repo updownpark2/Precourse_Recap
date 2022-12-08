@@ -1,13 +1,15 @@
 const { Random } = require("@woowacourse/mission-utils");
 
 function LottoMake(lottoCount) {
-  let Lotto = [];
+  let LottoArr = [];
   let i = 0;
   for (; i < lottoCount; i++) {
-    const numbers = Random.pickUniqueNumbersInRange(1, 45, 6);
-    Lotto.push(numbers);
+    const numbers = Random.pickUniqueNumbersInRange(1, 45, 6).sort(
+      (a, b) => a - b
+    );
+    LottoArr.push(numbers);
   }
-  return Lotto;
+  return LottoArr;
 }
 
 module.exports = LottoMake;

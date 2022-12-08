@@ -36,20 +36,18 @@ class Validation {
 
   #checkWinNumDuplication(winNum) {
     const winNumArr = this.#stringToArr(winNum);
-    console.log(winNumArr);
     let index = 0;
     let checkArr = [];
     for (; index < 6; index++) {
       if (checkArr.includes(winNumArr[index])) {
         throw new Error(`[ERROR] 당첨 숫자 중 중복은 있을 수 없습니다.`);
       }
-      checkArr.push(checkArr[index]);
+      checkArr.push(winNumArr[index]);
     }
   }
 
   #checkWinNumComma(winNum) {
     const winNumArr = this.#stringToArr(winNum);
-    console.log(winNumArr);
     winNumArr.forEach((winNum) => {
       if (winNum === ``) {
         throw new Error(`[ERROR] ,이 연속으로 입력되었습니다.`);
@@ -74,7 +72,7 @@ class Validation {
   }
 
   #checkBonusNumLength(bonusNum) {
-    if (bonusNum.length !== 1) {
+    if (bonusNum.length > 2) {
       throw new Error(`[ERROR] 보너스 번호는 1개만 입력이 가능합니다.`);
     }
   }
@@ -87,6 +85,7 @@ class Validation {
 
   #checkBonusDuplication(winNum, bonusNum) {
     const winNumArr = this.#stringToArr(winNum);
+    console.log(winNumArr);
     if (winNumArr.includes(bonusNum)) {
       throw new Error(`[ERROR] 당첨번호와 중복되는 보너스 번호입니다.`);
     }
