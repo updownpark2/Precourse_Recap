@@ -55,6 +55,10 @@ class Controller {
     const lottoArr = this.#getLottoArr(lottoCount);
     this.#showLotto(lottoArr);
   }
+
+  #getWinNum() {
+    InputView.getWinNum((winNum) => {});
+  }
 }
 
 module.exports = Controller;
