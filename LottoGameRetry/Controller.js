@@ -5,10 +5,9 @@ const LottoRule = require(`./LottoRule`);
 const makeLottoArr = require("./makeLotto");
 
 class Controller {
-  constructor() {
-    this.#validation = new Validation();
-    this.#lottoRule = new LottoRule();
-  }
+  #validation = new Validation();
+
+  #lottoRule = new LottoRule();
 
   getMoney() {
     InputView.getMoney((money) => {
@@ -16,6 +15,7 @@ class Controller {
         const lottoCount = this.#getLottoCount(money);
         this.#showLottoCount(lottoCount);
         this.#showAndMakeLotto(lottoCount);
+        this.#getWinNum();
       }
     });
   }
@@ -57,8 +57,20 @@ class Controller {
   }
 
   #getWinNum() {
-    InputView.getWinNum((winNum) => {});
+    InputView.getWinNum((winNum) => {
+      if (this.#checkWinNum(winNum) !== false) {
+        console.log("asd");
+      }
+    });
+  }
+  #checkWinNum(winNum) {
+    try {
+      this.#validation.totalCheckWinNum(winNum);
+    } catch (error) {
+      this.#validationFail(error);
+      this.#getWinNum();
+      return false;
+    }
   }
 }
-
 module.exports = Controller;
