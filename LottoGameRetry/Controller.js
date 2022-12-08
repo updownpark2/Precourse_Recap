@@ -9,7 +9,9 @@ class Controller {
 
   getMoney() {
     InputView.getMoney((money) => {
-      this.#checkMoney(money);
+      if (this.#checkMoney(money) !== false) {
+        this.#showLottoCount(money);
+      }
     });
   }
 
@@ -18,12 +20,17 @@ class Controller {
       this.validation.totalCheckMoney(money);
     } catch (error) {
       this.#validationFail(error);
-      return this.getMoney();
+      this.getMoney();
+      return false;
     }
   }
 
   #validationFail(error) {
     OutputView.showError(error);
+  }
+
+  #showLottoCount(money) {
+    OutputView.showLottoCount(money);
   }
 }
 
