@@ -28,55 +28,61 @@ class GameController {
   #getNumber() {
     InputView.getNumber((number) => {
       validation.CheckNumber(number);
-      const gameResult = this.getResult(number, this.#randomNumArr);
-      this.gameContinueOrRetry(gameResult);
+      const gameResult = this.#getResult(number, this.#randomNumArr);
+      this.#gameContinueOrRetry(gameResult);
     });
   }
 
-  gameContinueOrRetry(gameResult) {
+  #gameContinueOrRetry(gameResult) {
     if (gameResult.get(`strike`) === 3) {
-      this.gameRetry(gameResult);
+      this.#gameRetry(gameResult);
       return;
     }
     if (gameResult.get("strike") !== 3) {
-      this.gameContinue(gameResult);
+      this.#gameContinue(gameResult);
       return;
     }
   }
 
-  gameRetry(gameResult) {
-    this.gameSet(gameResult);
-    this.showEnd();
+  #gameRetry(gameResult) {
+    this.#gameSet(gameResult);
+    this.#showEnd();
+    this.#getRetry();
+  }
+
+  #getRetry() {
     InputView.getRetry((retry) => {
       validation.checkRetry(retry);
-      this.retryOrEnd(retry);
+      this.#retryOrEnd(retry);
     });
   }
 
-  gameContinue(gameResult) {
-    this.gameSet(gameResult);
+  #gameContinue(gameResult) {
+    this.#gameSet(gameResult);
     this.#getNumber();
   }
 
-  gameSet(gameResult) {
-    this.showResult(gameResult);
+  #gameSet(gameResult) {
+    this.#showResult(gameResult);
     gameRule.resetResult();
   }
 
-  getResult(number, randomNumArr) {
+  #getResult(number, randomNumArr) {
     gameRule.totalJudgement(number, randomNumArr);
-    return gameRule.getResult();
+    const gameResult = gameRule.getResult();
+
+    return gameResult;
   }
 
-  showEnd() {
+  #showEnd() {
     OutputView.end();
   }
 
-  showResult(result) {
+  #showResult(result) {
     OutputView.result(result);
   }
 
-  retryOrEnd(retry) {
+  #retryOrEnd(retry) {
     if (gameRule.judgementRetry(retry)) {
       this.#makeRandomNum();
       this.#getNumber();

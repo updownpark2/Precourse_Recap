@@ -22,11 +22,11 @@ class GameRule {
 
   totalJudgement(number, randomNumArr) {
     for (let i = 0; i < 3; i++) {
-      this.judgement(number, randomNumArr, i);
+      this.#judgement(number, randomNumArr, i);
     }
   }
 
-  judgement(number, randomNumArr, index) {
+  #judgement(number, randomNumArr, index) {
     const userNumArr = number.split("");
     if (userNumArr[index] === randomNumArr[index]) {
       this.#strikeCountUp();

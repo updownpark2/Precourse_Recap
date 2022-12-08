@@ -1,5 +1,5 @@
 class Validation {
-  checkRange(userInput) {
+  #checkRange(userInput) {
     let checkArr = [];
     let i = 0;
     for (; i < 3; i++) {
@@ -21,7 +21,7 @@ class Validation {
     if (/^[1-9]*$/g.test(number) === false) {
       throw new Error(`[ERROR] 숫자만 입력이 가능합니다.`);
     }
-    if (this.checkRange(number) === false) {
+    if (this.#checkRange(number) === false) {
       throw new Error(`[ERROR] 중복값이 있으면 안됩니다.`);
     }
   }
