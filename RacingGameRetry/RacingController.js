@@ -12,6 +12,10 @@ class RacingController {
     });
   }
 
+  #gettryCount() {
+    InputView.tryCount((tryCount) => {});
+  }
+
   #checkCarName(carName) {
     try {
       this.#validation.totalCheckCarName(carName);
