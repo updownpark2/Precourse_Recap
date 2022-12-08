@@ -1,6 +1,6 @@
 const { Random } = require("@woowacourse/mission-utils");
 
-function makeLotto(lottoCount) {
+function makeLottoArr(lottoCount) {
   let lottoArr = [];
   let index = 0;
   for (; index < lottoCount; index++) {
@@ -12,4 +12,4 @@ function makeLotto(lottoCount) {
   return lottoArr;
 }
 
-module.exports = makeLotto;
+module.exports = makeLottoArr;
