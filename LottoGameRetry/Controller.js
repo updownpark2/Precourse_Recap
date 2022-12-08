@@ -72,5 +72,9 @@ class Controller {
       return false;
     }
   }
+
+  #getBonusNum() {
+    InputView.getBonusNum((bonusNum) => {});
+  }
 }
 module.exports = Controller;
