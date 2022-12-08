@@ -73,9 +73,13 @@ class Controller {
     InputView.getBonusNum((bonusNum) => {
       if (this.#checkBonusNum(bonusNum, winNum, lottoArr) !== false) {
         const result = this.#lottoRule.getResult(lottoArr, winNum, bonusNum);
-        console.log(result);
+        this.#showResult(result);
       }
     });
+  }
+
+  #showResult(result) {
+    OutputView.showResult(result);
   }
 
   #checkBonusNum(bonusNum, winNum, lottoArr) {
