@@ -59,7 +59,7 @@ class Controller {
   #getWinNum() {
     InputView.getWinNum((winNum) => {
       if (this.#checkWinNum(winNum) !== false) {
-        console.log("asd");
+        this.#getBonusNum(winNum);
       }
     });
   }
@@ -73,8 +73,22 @@ class Controller {
     }
   }
 
-  #getBonusNum() {
-    InputView.getBonusNum((bonusNum) => {});
+  #getBonusNum(winNum) {
+    InputView.getBonusNum((bonusNum) => {
+      if (this.#checkBonusNum(bonusNum, winNum) !== false) {
+        console.log("123");
+      }
+    });
+  }
+
+  #checkBonusNum(bonusNum, winNum) {
+    try {
+      this.#validation.totalCheckBonusNum(bonusNum, winNum);
+    } catch (error) {
+      this.#validationFail(error);
+      this.#getBonusNum(winNum);
+      return false;
+    }
   }
 }
 module.exports = Controller;

@@ -69,6 +69,31 @@ class Validation {
     this.#checkWinNumOnlyNum(winNumArr);
     this.#checkWinNumRange(winNumArr);
   }
+
+  #checkBonusNumOnlyNum(bonusNum) {
+    if (/^[0-9]*$/g.test(bonusNum) === false) {
+      throw new Error(`[ERROR] 숫자만 입력이 가능합니다.`);
+    }
+  }
+
+  #checkBonusNumDuplication(bonusNum, winNum) {
+    const winNumArr = winNum.split(`,`);
+    if (winNumArr.includes(bonusNum)) {
+      throw new Error(`[ERROR] 당첨번호와 보너스번호는 중복이 불가능합니다.`);
+    }
+  }
+
+  #checkBonusNumRange(bonusNum) {
+    if (bonusNum < 1 || bonusNum > 45) {
+      throw new Error(`[ERROR] 1~45 사이의 숫자만 입력이 가능합니다.`);
+    }
+  }
+
+  totalCheckBonusNum(bonusNum, winNum) {
+    this.#checkBonusNumOnlyNum(bonusNum);
+    this.#checkBonusNumDuplication(bonusNum, winNum);
+    this.#checkBonusNumRange(bonusNum);
+  }
 }
 
 module.exports = Validation;
