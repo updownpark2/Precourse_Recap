@@ -13,6 +13,11 @@ const OutputView = {
     });
     Console.print(``);
   },
+
+  showWinner(winner) {
+    const stringWinner = winner.join(`, `);
+    Console.print(`최종 우승자 : ${stringWinner}`);
+  },
 };
 
 module.exports = OutputView;

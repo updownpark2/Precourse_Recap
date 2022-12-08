@@ -2,7 +2,6 @@ const InputView = require(`./InputView`);
 const OutputView = require(`./OutputView`);
 const Validation = require(`./Validation`);
 const RacingRule = require("./RacingRule");
-const { carName } = require("./InputView");
 
 class RacingController {
   #validation = new Validation();
@@ -21,7 +20,7 @@ class RacingController {
     InputView.tryCount((tryCount) => {
       if (this.#checkTryCount(tryCount, carName) !== false) {
         this.#getResultAndShow(carName, tryCount);
-        const winner = this.#getWinner();
+        this.#getWinnerAndShow();
       }
     });
   }
@@ -58,9 +57,9 @@ class RacingController {
     }
   }
 
-  #getWinner() {
+  #getWinnerAndShow() {
     const winner = this.#racingRule.getWinner();
-    return winner;
+    OutputView.showWinner(winner);
   }
 }
 

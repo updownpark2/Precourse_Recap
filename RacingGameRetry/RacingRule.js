@@ -46,8 +46,6 @@ class RacingRule {
   #getMaxMovement() {
     const carMovement = this.#getCarMovement();
     const maxMovement = Math.max(...carMovement);
-    console.log(carMovement);
-    console.log(maxMovement);
     return maxMovement;
   }
 
