@@ -6,8 +6,8 @@ const makeLottoArr = require("./makeLotto");
 
 class Controller {
   constructor() {
-    this.validation = new Validation();
-    this.lottoRule = new LottoRule();
+    this.#validation = new Validation();
+    this.#lottoRule = new LottoRule();
   }
 
   getMoney() {
@@ -15,15 +15,14 @@ class Controller {
       if (this.#checkMoney(money) !== false) {
         const lottoCount = this.#getLottoCount(money);
         this.#showLottoCount(lottoCount);
-        const lottoArr = this.#getLottoArr(lottoCount);
-        this.#showLotto(lottoArr);
+        this.#showAndMakeLotto(lottoCount);
       }
     });
   }
 
   #checkMoney(money) {
     try {
-      this.validation.totalCheckMoney(money);
+      this.#validation.totalCheckMoney(money);
     } catch (error) {
       this.#validationFail(error);
       this.getMoney();
@@ -40,7 +39,7 @@ class Controller {
   }
 
   #getLottoCount(money) {
-    const lottoCount = this.lottoRule.getLottoCount(money);
+    const lottoCount = this.#lottoRule.getLottoCount(money);
 
     return lottoCount;
   }
@@ -50,6 +49,11 @@ class Controller {
   }
   #showLotto(lottoArr) {
     OutputView.showLotto(lottoArr);
+  }
+
+  #showAndMakeLotto(lottoCount) {
+    const lottoArr = this.#getLottoArr(lottoCount);
+    this.#showLotto(lottoArr);
   }
 }
 
