@@ -74,8 +74,13 @@ class Controller {
       if (this.#checkBonusNum(bonusNum, winNum, lottoArr) !== false) {
         const result = this.#lottoRule.getResult(lottoArr, winNum, bonusNum);
         this.#showResult(result);
+        const benefit = this.#lottoRule.getBenefit();
+        this.#showBenefit(benefit, lottoArr);
       }
     });
+  }
+  #showBenefit(benefit, lottoArr) {
+    OutputView.showBenefit(benefit, lottoArr);
   }
 
   #showResult(result) {

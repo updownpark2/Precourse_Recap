@@ -66,6 +66,17 @@ class LottoRule {
 
     return this.#result;
   }
+
+  getBenefit() {
+    const benefit =
+      this.#result.get("5등") * 5000 +
+      this.#result.get("4등") * 50000 +
+      this.#result.get("3등") * 1500000 +
+      this.#result.get("2등") * 30000000 +
+      this.#result.get("1등") * 2000000000;
+
+    return benefit;
+  }
 }
 
 module.exports = LottoRule;
