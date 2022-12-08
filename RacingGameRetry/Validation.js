@@ -58,6 +58,23 @@ class Validation {
     this.#checkCarNameDuplication(carNameArr);
     this.#checkCarNameIncludesBlank(carNameArr);
   }
+
+  #checkTryCountOnlyNum(tryCount) {
+    if (/^[0-9]*$/g.test(tryCount) === false) {
+      throw new Error(`[ERROR] 숫자만 입력이 가능합니다.`);
+    }
+  }
+
+  #checkTryCountRange(tryCount) {
+    if (tryCount < 1) {
+      throw new Error(`[ERROR] 최소 입력값은 1 입닌다.`);
+    }
+  }
+
+  totalCheckTryCount(tryCount) {
+    this.#checkTryCountOnlyNum(tryCount);
+    this.#checkTryCountRange(tryCount);
+  }
 }
 
 module.exports = Validation;

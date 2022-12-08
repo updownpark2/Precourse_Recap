@@ -8,12 +8,16 @@ class RacingController {
   getCarName() {
     InputView.carName((carName) => {
       if (this.#checkCarName(carName) !== false) {
+        this.#getTryCount();
       }
     });
   }
 
-  #gettryCount() {
-    InputView.tryCount((tryCount) => {});
+  #getTryCount() {
+    InputView.tryCount((tryCount) => {
+      if (this.#checkTryCount(tryCount) !== false) {
+      }
+    });
   }
 
   #checkCarName(carName) {
@@ -22,6 +26,16 @@ class RacingController {
     } catch (error) {
       this.#validationFailAndShowError(error);
       this.getCarName();
+      return false;
+    }
+  }
+
+  #checkTryCount(tryCount) {
+    try {
+      this.#validation.totalCheckTryCount(tryCount);
+    } catch (error) {
+      this.#validationFailAndShowError(error);
+      this.#getTryCount();
       return false;
     }
   }
