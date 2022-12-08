@@ -3,7 +3,6 @@ const Validation = require(`./Validation`);
 const LottoRule = require("./LottoRule");
 const OutputView = require("./OutputView");
 const LottoMake = require("./LottoMake");
-const { winNum } = require("./InputView");
 
 const validation = new Validation();
 const lottoRule = new LottoRule();
@@ -16,36 +15,47 @@ class LottoController {
   #getMoney() {
     InputView.money((money) => {
       const lottoCount = this.#getLottoCount(money);
-      if (this.#checkMoney(money, lottoCount) !== false) {
-        this.#getWinNum(money);
+      if (this.#checkMoney(money) !== false) {
+        const lottoArr = this.#getLotto(lottoCount);
+        this.#passCheckMoney(lottoCount);
+        this.#getWinNum(money, lottoArr);
       }
     });
   }
 
-  #getWinNum(money) {
+  #getWinNum(money, lottoArr) {
     InputView.winNum((winNum) => {
       if (this.#checkWinNum(winNum) !== false) {
-        this.#getBonusNum(winNum, money);
+        this.#getBonusNum(winNum, money, lottoArr);
       }
     });
   }
 
-  #getBonusNum(winNum, money) {
+  #getBonusNum(winNum, money, lottoArr) {
     InputView.bonusNum((bonusNum) => {
       if (this.#checkBonusNum(winNum, bonusNum) !== false) {
-        console.log(money);
+        this.#judgementWin(lottoArr, winNum, bonusNum);
+        const result = this.#getLottoRusult();
+        console.log(result);
       }
     });
   }
 
-  #checkMoney(money, lottoCount) {
+  #judgementWin(lottoArr, winNum, bonusNum) {
+    lottoRule.totalJudgement(lottoArr, winNum, bonusNum);
+  }
+
+  #getLottoRusult() {
+    const result = lottoRule.getResult();
+  }
+
+  #checkMoney(money) {
     try {
       validation.checkMoney(money);
     } catch (error) {
       this.#failCheckMoney(error);
       return false;
     }
-    this.#passCheckMoney(lottoCount);
   }
   #failCheckMoney(error) {
     OutputView.showError(error);
@@ -94,8 +104,8 @@ class LottoController {
   }
 
   #showLotto(lottoCount) {
-    const lotto = this.#getLotto(lottoCount);
-    OutputView.lotto(lotto);
+    const lottoArr = this.#getLotto(lottoCount);
+    OutputView.lotto(lottoArr);
   }
 
   #getLotto(lottoCount) {
