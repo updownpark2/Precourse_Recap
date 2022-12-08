@@ -21,6 +21,7 @@ class RacingController {
     InputView.tryCount((tryCount) => {
       if (this.#checkTryCount(tryCount, carName) !== false) {
         this.#getResultAndShow(carName, tryCount);
+        const winner = this.#getWinner();
       }
     });
   }
@@ -50,13 +51,16 @@ class RacingController {
   }
 
   #getResultAndShow(carName, tryCount) {
-    this.#racingRule.setRacingResult(carName);
-
     let i = 0;
     for (; i < tryCount; i++) {
       const racingResult = this.#racingRule.getRacingResult(carName);
       OutputView.showResult(racingResult, carName);
     }
+  }
+
+  #getWinner() {
+    const winner = this.#racingRule.getWinner();
+    return winner;
   }
 }
 
