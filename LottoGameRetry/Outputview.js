@@ -5,10 +5,16 @@ const OutputView = {
     Console.print(error);
   },
 
-  showLottoCount(money) {
-    const lottoCount = money / 1000;
-
+  showLottoCount(lottoCount) {
     Console.print(`${lottoCount}개를 구매했습니다.`);
+  },
+
+  showLotto(lottoArr) {
+    lottoArr.forEach((lotto) => {
+      const lottoToShow = lotto.join(`, `);
+
+      Console.print(`[${lottoToShow}]`);
+    });
   },
 };
 
