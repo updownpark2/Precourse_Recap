@@ -14,8 +14,9 @@ class Controller {
       if (this.#checkMoney(money) !== false) {
         const lottoCount = this.#getLottoCount(money);
         this.#showLottoCount(lottoCount);
-        this.#showAndMakeLotto(lottoCount);
-        this.#getWinNum();
+        const lottoArr = this.#getLottoArr(lottoCount);
+        this.#showLotto(lottoArr);
+        this.#getWinNum(lottoArr);
       }
     });
   }
@@ -51,42 +52,38 @@ class Controller {
     OutputView.showLotto(lottoArr);
   }
 
-  #showAndMakeLotto(lottoCount) {
-    const lottoArr = this.#getLottoArr(lottoCount);
-    this.#showLotto(lottoArr);
-  }
-
-  #getWinNum() {
+  #getWinNum(lottoArr) {
     InputView.getWinNum((winNum) => {
-      if (this.#checkWinNum(winNum) !== false) {
-        this.#getBonusNum(winNum);
+      if (this.#checkWinNum(winNum, lottoArr) !== false) {
+        this.#getBonusNum(winNum, lottoArr);
       }
     });
   }
-  #checkWinNum(winNum) {
+  #checkWinNum(winNum, lottoArr) {
     try {
       this.#validation.totalCheckWinNum(winNum);
     } catch (error) {
       this.#validationFail(error);
-      this.#getWinNum();
+      this.#getWinNum(lottoArr);
       return false;
     }
   }
 
-  #getBonusNum(winNum) {
+  #getBonusNum(winNum, lottoArr) {
     InputView.getBonusNum((bonusNum) => {
-      if (this.#checkBonusNum(bonusNum, winNum) !== false) {
-        console.log("123");
+      if (this.#checkBonusNum(bonusNum, winNum, lottoArr) !== false) {
+        const result = this.#lottoRule.getResult(lottoArr, winNum, bonusNum);
+        console.log(result);
       }
     });
   }
 
-  #checkBonusNum(bonusNum, winNum) {
+  #checkBonusNum(bonusNum, winNum, lottoArr) {
     try {
       this.#validation.totalCheckBonusNum(bonusNum, winNum);
     } catch (error) {
       this.#validationFail(error);
-      this.#getBonusNum(winNum);
+      this.#getBonusNum(winNum, lottoArr);
       return false;
     }
   }
