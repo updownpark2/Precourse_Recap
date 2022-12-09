@@ -1,15 +1,17 @@
+const { ERROR } = require("./utils/constants");
+
 class Validation {
   #checkCarNamelength(carNameArr) {
     carNameArr.forEach((carName) => {
       if (carName.length > 5) {
-        throw new Error(`[ERROR] 이름은 5글자 이하만 가능합니다.`);
+        throw new Error(ERROR.CAR_NAME_LENGTH);
       }
     });
   }
 
   #checkCarNameBlank(carNameArr) {
     if (carNameArr.length === 0) {
-      throw new Error(`[ERORR] 공백은 입력될 수 없습니다.`);
+      throw new Error(ERROR.CAR_NAME_BLANK);
     }
   }
 
@@ -17,14 +19,14 @@ class Validation {
     const stringCarName = carNameArr.join(`,`);
     console.log(stringCarName);
     if (/^[a-zA-Z]/g.test(stringCarName) === false) {
-      throw new Error(`[ERROR] 알파벳만 입력이 가능합니다.`);
+      throw new Error(ERROR.CAR_NAME_ONLY_ALPABET);
     }
   }
 
   #checkCarNameComma(carNameArr) {
     carNameArr.forEach((carName) => {
       if (carName === ``) {
-        throw new Error(`[ERROR] ,이 연속으로 입력 되었습니다.`);
+        throw new Error(ERROR.CAR_NAME_COMMA);
       }
     });
   }
@@ -33,7 +35,7 @@ class Validation {
     const checkArr = [];
     carNameArr.forEach((carName) => {
       if (checkArr.includes(carName)) {
-        throw new Error(`[ERROR] 중복된 이름은 사용할 수 없습니다.`);
+        throw new Error(ERROR.CAR_NAME_DUPLICATION);
       }
       checkArr.push(carName);
     });
@@ -43,7 +45,7 @@ class Validation {
     carNameArr.forEach((carName) => {
       carName.split("").forEach((carNameCharset) => {
         if (carNameCharset === ` `) {
-          throw new Error(`[ERROR] 이름에 공백이 존재합니다.`);
+          throw new Error(ERROR.CAR_NAME_INCLUDES_BLANK);
         }
       });
     });
@@ -61,13 +63,13 @@ class Validation {
 
   #checkTryCountOnlyNum(tryCount) {
     if (/^[0-9]*$/g.test(tryCount) === false) {
-      throw new Error(`[ERROR] 숫자만 입력이 가능합니다.`);
+      throw new Error(ERROR.TRY_COUNT_ONLY_NUM);
     }
   }
 
   #checkTryCountRange(tryCount) {
     if (tryCount < 1) {
-      throw new Error(`[ERROR] 최소 입력값은 1 입닌다.`);
+      throw new Error(ERROR.TRY_COUNT_RANGE);
     }
   }
 

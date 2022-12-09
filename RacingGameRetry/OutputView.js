@@ -1,4 +1,5 @@
 const { Console } = require("@woowacourse/mission-utils");
+const { OUTPUT } = require(`./utils/constants`);
 
 const OutputView = {
   showError(error) {
@@ -16,7 +17,7 @@ const OutputView = {
 
   showWinner(winner) {
     const stringWinner = winner.join(`, `);
-    Console.print(`최종 우승자 : ${stringWinner}`);
+    Console.print(`${OUTPUT.WINNER}${stringWinner}`);
   },
 };
 
