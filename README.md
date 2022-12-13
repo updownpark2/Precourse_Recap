@@ -701,7 +701,7 @@ module.exports = Validation;
 
 4. 다시 한 번 모든 미션 해결해보기 
 
-5. 꺾이지 
+5. 꺾이지 않는 마음 갖기
 
 
 
